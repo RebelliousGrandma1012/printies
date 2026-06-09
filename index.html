@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quintie Pintie's Printies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky: #5BB8F5;
+      --periwinkle: #A8CFFF;
+      --cloud: #EEF6FF;
+      --navy: #1A3A5C;
+      --navy-light: #2E5C8A;
+      --white: #FFFFFF;
+      --bubble1: rgba(91,184,245,0.18);
+      --bubble2: rgba(168,207,255,0.22);
+      --radius: 20px;
+      --shadow: 0 8px 32px rgba(91,184,245,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cloud);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      background: rgba(238,246,255,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1.5px solid rgba(91,184,245,0.18);
+    }
+
+    .nav-logo {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--sky); }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--navy-light);
+      text-decoration: none;
+      padding: 8px 22px;
+      border-radius: 50px;
+      background: transparent;
+      transition: background 0.22s, color 0.22s, transform 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: var(--sky);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #dceffe 0%, #eef6ff 60%, #c9e8fb 100%);
+    }
+
+    .bubble-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) scale(1);   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.7; }
+      100% { transform: translateY(-20vh) scale(1.1); opacity: 0; }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--periwinkle);
+      color: var(--navy);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 22px;
+    }
+
+    .hero-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--navy);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title .accent { color: var(--sky); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: var(--navy-light);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 38px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      background: var(--sky);
+      color: var(--white);
+      padding: 14px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(91,184,245,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(91,184,245,0.5);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 100px 24px;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: #4a6a8a;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .about-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .about-card {
+      background: var(--cloud);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      border: 1.5px solid rgba(91,184,245,0.15);
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .about-card-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, var(--periwinkle), var(--sky));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-card h4 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+      font-size: 1rem;
+    }
+
+    .about-card p {
+      font-size: 0.88rem;
+      color: #5a7a9a;
+      line-height: 1.6;
+    }
+
+    /* ── GALLERY ── */
+    #gallery {
+      background: var(--cloud);
+    }
+
+    .gallery-header { text-align: center; margin-bottom: 50px; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .gallery-item {
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 4px 18px rgba(91,184,245,0.12);
+      cursor: pointer;
+      transition: transform 0.22s, box-shadow 0.22s;
+      aspect-ratio: 1;
+      position: relative;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(91,184,245,0.28);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,58,92,0.7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.22s;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-overlay span {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: white;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10, 28, 50, 0.82);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-box {
+      background: var(--white);
+      border-radius: 28px;
+      max-width: 720px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      animation: popIn 0.25s cubic-bezier(.4,1.4,.6,1) forwards;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .lightbox-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    .lightbox-body {
+      padding: 28px 32px 32px;
+    }
+
+    .lightbox-body h3 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .lightbox-body p {
+      color: #5a7a9a;
+      line-height: 1.75;
+      font-size: 0.97rem;
+    }
+
+    .lightbox-close {
+      display: block;
+      margin: 20px auto 0;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--white);
+      background: var(--sky);
+      border: none;
+      padding: 10px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+    }
+
+    .lightbox-close:hover {
+      background: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--white);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 70px;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: #4a6a8a;
+      font-size: 1.02rem;
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--cloud);
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--navy);
+      border: 1.5px solid rgba(91,184,245,0.2);
+      margin-bottom: 12px;
+      display: flex;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 2px solid rgba(91,184,245,0.25);
+      background: var(--cloud);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      color: var(--navy);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--sky);
+      box-shadow: 0 0 0 4px rgba(91,184,245,0.15);
+      background: var(--white);
+    }
+
+    .form-group textarea {
+      height: 130px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--sky), #3a9de0);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(91,184,245,0.38);
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(91,184,245,0.5);
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .form-success .check {
+      font-size: 3rem;
+      margin-bottom: 14px;
+    }
+
+    .form-success h3 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-success p {
+      color: #5a7a9a;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.88rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+    }
+
+    footer span { color: var(--periwinkle); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 18px; }
+      .nav-logo { font-size: 1.05rem; }
+      .nav-links a { padding: 7px 14px; font-size: 0.85rem; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bubble { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Quintie <span>Pintie's</span> Printies 🖨️</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="bubble-bg" id="bubbleBg"></div>
+  <div class="hero-badge">✨ 3D Printing & Design</div>
+  <h1 class="hero-title">Quintie <span class="accent">Pintie's</span><br/>Printies</h1>
+  <p class="hero-sub">Where creativity meets the third dimension — handcrafted 3D files, printed beauties, and a community built on making things together.</p>
+  <a href="#gallery" class="hero-btn">Browse the Gallery →</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-eyebrow">Who We Are</div>
+        <h2 class="section-title">Hi, I'm Quintus 👋</h2>
+        <p>Welcome to Quintie Pintie's Printies — a cozy corner of the internet where 3D printing meets imagination. I'm Quintus, a passionate designer who creates original 3D files and brings them to life layer by layer.</p>
+        <p>This space is where I share photos of my printed creations, from intricate desk ornaments to functional everyday objects. Whether you're a seasoned maker or just 3D-curious, you'll find something here to inspire you.</p>
+        <p>Got a project in mind but not sure where to start? I love helping people figure out what's possible with 3D printing. Drop me a message — let's make something together!</p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-card-icon">🎨</div>
+          <div>
+            <h4>Original 3D Files</h4>
+            <p>Every design is made from scratch by Quintus — no cookie-cutter templates, just original ideas shaped into printable files.</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">📸</div>
+          <div>
+            <h4>Printed in Real Life</h4>
+            <p>Browse the gallery to see real printed results — honest photos of the finished pieces, fresh off the print bed.</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🤝</div>
+          <div>
+            <h4>Community Help</h4>
+            <p>Need a custom design or advice on your own project? Quintus is here to lend a hand and help you bring your vision to life.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="gallery-header">
+      <div class="section-eyebrow">Prints & Creations</div>
+      <h2 class="section-title">The Gallery</h2>
+      <p style="color:#5a7a9a; font-size:1.02rem; max-width:500px; margin:0 auto; line-height:1.75;">Click any piece to learn more about the design, materials used, and the story behind it.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-eyebrow">Get in Touch</div>
+        <h2 class="section-title">Let's Make Something Together</h2>
+        <p>Have a 3D printing idea you'd love to see come to life? Want a custom file for your project? Or just want to say hello? I'd love to hear from you — fill out the form and I'll get back to you soon!</p>
+        <div class="contact-pill">💌 &nbsp;Usually replies within 24 hours</div><br/>
+        <div class="contact-pill">🖨️ &nbsp;Open to custom commissions</div><br/>
+        <div class="contact-pill">🌍 &nbsp;Helping makers worldwide</div>
+      </div>
+      <div>
+        <div id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="e.g. Alex Smith" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="notes">Your Message</label>
+            <textarea id="notes" placeholder="Tell me about your project, question, or just say hi!"></textarea>
+          </div>
+          <button class="submit-btn" onclick="handleSubmit()">Send Message 🚀</button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="check">🎉</div>
+          <h3>Message Sent!</h3>
+          <p>Thanks for reaching out! Quintus will be in touch with you very soon.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box" id="lightboxBox">
+    <img src="" alt="" class="lightbox-img" id="lightboxImg" />
+    <div class="lightbox-body">
+      <h3 id="lightboxTitle"></h3>
+      <p id="lightboxDesc"></p>
+      <button class="lightbox-close" onclick="closeLightbox()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Made with 💙 by <span>Quintus</span> · Quintie Pintie's Printies &copy; 2025
+</footer>
+
+<script>
+  /* ── BUBBLES ── */
+  const bg = document.getElementById('bubbleBg');
+  const colors = ['rgba(91,184,245,0.22)', 'rgba(168,207,255,0.28)', 'rgba(200,230,255,0.2)', 'rgba(91,184,245,0.14)'];
+  for (let i = 0; i < 22; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = 18 + Math.random() * 80;
+    b.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border: 1.5px solid rgba(91,184,245,0.25);
+      animation-duration:${8 + Math.random()*14}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    bg.appendChild(b);
+  }
+
+  /* ── GALLERY DATA ── */
+  const items = [
+    {
+      title: "Mini Succulent Planter",
+      desc: "A tiny geometric planter printed in forest-green PLA. Designed to hold a single succulent on any windowsill. The hexagonal facets catch the light beautifully. Printed at 0.15mm layer height for a smooth finish.",
+      color: "#b2dfdb", emoji: "🌵"
+    },
+    {
+      title: "Cable Management Clip",
+      desc: "A simple but deeply satisfying print — this wall-mount cable clip holds up to three cables and snaps onto any flat surface with double-sided tape. Printed in matte black PETG for durability.",
+      color: "#b0bec5", emoji: "🔌"
+    },
+    {
+      title: "Articulated Dragon",
+      desc: "One of my most popular designs — a fully articulated dragon with 32 interlocking segments, printed in a single piece without supports. Each joint flexes independently. A real crowd-pleaser!",
+      color: "#ce93d8", emoji: "🐉"
+    },
+    {
+      title: "Desk Card Holder",
+      desc: "A slim, elegant card holder for business cards or desk notes. The wave-cut opening makes it easy to grab the top card. Printed in pearl white PLA with a subtle matte surface texture.",
+      color: "#fff9c4", emoji: "📇"
+    },
+    {
+      title: "Moon Phase Lamp Shade",
+      desc: "A shade designed to cast a crescent moon pattern on your wall when backlit. Printed in translucent PETG so light diffuses softly through the walls. Fits standard E14 lamp bases.",
+      color: "#d1c4e9", emoji: "🌙"
+    },
+    {
+      title: "Geometric Wall Art",
+      desc: "A modular wall panel in a Voronoi cell pattern. Each panel interlocks with its neighbours, so you can build as large a display as you like. Painted here in ocean blue and white.",
+      color: "#b3e5fc", emoji: "🔷"
+    },
+    {
+      title: "Phone Stand",
+      desc: "A foldable phone stand that collapses flat for travel. The hinge is printed in-place using a clever tolerance gap — no assembly needed. Available in landscape and portrait orientation versions.",
+      color: "#ffccbc", emoji: "📱"
+    },
+    {
+      title: "Herb Label Stakes",
+      desc: "A set of five garden herb label stakes — Basil, Thyme, Rosemary, Mint, and Parsley — each with the herb name embossed in a charming script font. Printed in weather-resistant ASA filament.",
+      color: "#c8e6c9", emoji: "🌿"
+    },
+    {
+      title: "Miniature Castle",
+      desc: "A detailed 1:300 scale castle with separate towers, drawbridge, and battlements. Four-hour print at 0.1mm resolution. Perfect as a tabletop RPG prop or display piece.",
+      color: "#dcedc8", emoji: "🏰"
+    },
+    {
+      title: "Headphone Hook",
+      desc: "A clean under-desk headphone hook that clamps onto any desk edge up to 35mm thick. No drilling required. Printed in black PETG with a soft rubber-coated insert to protect the headband.",
+      color: "#f8bbd0", emoji: "🎧"
+    },
+    {
+      title: "Origami-Style Vase",
+      desc: "A faceted vase that looks hand-folded from paper but is actually rigid PLA. Water-tight with an epoxy coating inside. The angular planes catch light differently as you walk past.",
+      color: "#ffe0b2", emoji: "🏺"
+    },
+    {
+      title: "Butterfly Keycap",
+      desc: "A custom artisan keycap featuring a monarch butterfly in high relief. Printed in resin at 0.05mm for crisp detail, then hand-painted. Fits MX-compatible mechanical keyboard switches.",
+      color: "#fce4ec", emoji: "🦋"
+    }
+  ];
+
+  const grid = document.getElementById('galleryGrid');
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'gallery-item';
+    el.innerHTML = `
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,${item.color},${lighten(item.color)});display:flex;align-items:center;justify-content:center;font-size:3.5rem;">
+        ${item.emoji}
+      </div>
+      <div class="gallery-overlay"><span>${item.title}</span></div>
+    `;
+    el.addEventListener('click', () => openLightbox(item, el.querySelector('div').style.background));
+    grid.appendChild(el);
+  });
+
+  function lighten(hex) {
+    return hex.replace(/\w\w/g, m => Math.min(255, parseInt(m,16)+40).toString(16).padStart(2,'0'));
+  }
+
+  /* ── LIGHTBOX ── */
+  function openLightbox(item, bg) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightboxImg').style.cssText = `display:block;width:100%;height:220px;object-fit:cover;background:${bg};font-size:6rem;display:flex;align-items:center;justify-content:center;`;
+    document.getElementById('lightboxImg').outerHTML; // noop
+    // use emoji div instead
+    const box = document.getElementById('lightboxBox');
+    const existing = box.querySelector('.lightbox-hero');
+    if (existing) existing.remove();
+    const hero = document.createElement('div');
+    hero.className = 'lightbox-hero';
+    hero.style.cssText = `width:100%;height:220px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:6rem;`;
+    hero.textContent = item.emoji;
+    box.insertBefore(hero, box.children[1]);
+    document.getElementById('lightboxTitle').textContent = item.title;
+    document.getElementById('lightboxDesc').textContent = item.desc;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.tagName === 'BUTTON') {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({}); });
+
+  /* ── CONTACT ── */
+  function handleSubmit() {
+    const name  = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const notes = document.getElementById('notes').value.trim();
+    if (!name || !email || !notes) {
+      alert('Please fill out all fields before sending!');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    // In production, replace this with your email service (e.g. EmailJS, Formspree, etc.)
+    console.log('Form submission:', { name, email, notes });
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+</script>
+</body>
+</html>
