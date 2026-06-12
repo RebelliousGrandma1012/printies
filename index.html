@@ -696,9 +696,9 @@
   /* ── GALLERY DATA ── */
   const items = [
     {
-      title: "Mini Succulent Planter",
-      desc: "A tiny geometric planter printed in forest-green PLA. Designed to hold a single succulent on any windowsill. The hexagonal facets catch the light beautifully. Printed at 0.15mm layer height for a smooth finish.",
-      color: "#b2dfdb", emoji: "🌵"
+      title: "Butterfly Knife",
+      desc: "A fully printed butterfly knife (balisong) — one of my favourite functional designs. Every pivot, handle slab, and blade is printed in tough PETG for satisfying weight and smooth flipping action. The tolerances are dialled in so the handles swing freely without wobble. A great conversation piece on any desk!",
+      color: "#b0c4de", image: "images/butterfly_knife_3d_print.jpeg"
     },
     {
       title: "Cable Management Clip",
@@ -761,13 +761,12 @@
   items.forEach((item, i) => {
     const el = document.createElement('div');
     el.className = 'gallery-item';
-    el.innerHTML = `
-      <div style="width:100%;height:100%;background:linear-gradient(135deg,${item.color},${lighten(item.color)});display:flex;align-items:center;justify-content:center;font-size:3.5rem;">
-        ${item.emoji}
-      </div>
-      <div class="gallery-overlay"><span>${item.title}</span></div>
-    `;
-    el.addEventListener('click', () => openLightbox(item, el.querySelector('div').style.background));
+    const thumbContent = item.image
+      ? `<img src="${item.image}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />`
+      : `<div style="width:100%;height:100%;background:linear-gradient(135deg,${item.color},${lighten(item.color)});display:flex;align-items:center;justify-content:center;font-size:3.5rem;">${item.emoji}</div>`;
+    el.innerHTML = `${thumbContent}<div class="gallery-overlay"><span>${item.title}</span></div>`;
+    const bgFallback = `linear-gradient(135deg,${item.color},${lighten(item.color)})`;
+    el.addEventListener('click', () => openLightbox(item, bgFallback));
     grid.appendChild(el);
   });
 
@@ -778,16 +777,18 @@
   /* ── LIGHTBOX ── */
   function openLightbox(item, bg) {
     const lb = document.getElementById('lightbox');
-    document.getElementById('lightboxImg').style.cssText = `display:block;width:100%;height:220px;object-fit:cover;background:${bg};font-size:6rem;display:flex;align-items:center;justify-content:center;`;
-    document.getElementById('lightboxImg').outerHTML; // noop
-    // use emoji div instead
     const box = document.getElementById('lightboxBox');
     const existing = box.querySelector('.lightbox-hero');
     if (existing) existing.remove();
     const hero = document.createElement('div');
     hero.className = 'lightbox-hero';
-    hero.style.cssText = `width:100%;height:220px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:6rem;`;
-    hero.textContent = item.emoji;
+    if (item.image) {
+      hero.style.cssText = `width:100%;height:260px;overflow:hidden;`;
+      hero.innerHTML = `<img src="${item.image}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
+    } else {
+      hero.style.cssText = `width:100%;height:220px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:6rem;`;
+      hero.textContent = item.emoji;
+    }
     box.insertBefore(hero, box.children[1]);
     document.getElementById('lightboxTitle').textContent = item.title;
     document.getElementById('lightboxDesc').textContent = item.desc;
